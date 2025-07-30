@@ -1,4 +1,4 @@
-import { defineConfig } from '@rsbuild/core';
+import { defineConfig, rspack } from '@rsbuild/core';
 import { pluginNodePolyfill } from '@rsbuild/plugin-node-polyfill';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginBabel } from '@rsbuild/plugin-babel';
@@ -23,6 +23,10 @@ export default defineConfig({
   tools: {
     postcss: (_, { addPlugins }) => {
       addPlugins([tailwindcss()]);
+    },
+    rspack: (config) => {
+      config.plugins.push(new rspack.HotModuleReplacementPlugin());
+      config.output.chunkFormat = 'array-push';
     },
   },
   source: { define },
